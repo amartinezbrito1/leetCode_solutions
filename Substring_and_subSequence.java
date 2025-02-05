@@ -49,7 +49,10 @@ char currentChar = s.charAt(end);
 if (storage.containsKey(currentChar))
 {
     //move the start pointer to the last time "  [index] + 1 " you saw that char
-    //you shouldnt move i (start) pointer if it is not inside your current window 
+    //you shouldnt move i (start) pointer if the duplicate is not inside your current window 
+    //if finfing a current char duplicate requires us to move i (start) to a position behind the current index of i, we actually DONOT move it. 
+    //because we only work with the elements inside our window whatever we have before doesnt and shouldnt affect us. 
+    //This will ensure that we never set i to a lower value than the current one in it at the moment.
     start = Math.max(start, storage.get(currentChar) + 1);
 }
 //populating the storgare map
