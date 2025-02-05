@@ -34,30 +34,33 @@ import java.util.Map;
 
 public class Solution {
     public int lengthOfLongestSubstring(String s) {
-        //map to store the last seen position of each character
-        //raw hashmap --not specifying the type 
-        Map charMap = new HashMap<>();
-        int maxLength = 0;  // Length of the longest substring without repeating characters
-        int start = 0;      // Start of the current window
+        //specify the kind of Map you will use, in this case not a raw map, but specific one <char,int>
+ Map<Character, Integer> storage = new HashMap<>();
+ int maxLenght = 0;
+ int start = 0;
 
-        for (int end = 0; end < s.length(); end++) {
-            //check the value (char) for the string "s" at index "end" and store it on currentChar
-            char currentChar = s.charAt(end);
-            
-            // If the character is already in the window, move the start of the window
-            if (charMap.containsKey(currentChar)) {
-                // Move start to the right of the last occurrence of the character or keep it if already past that point
-                start = Math.max((int)charMap.get(currentChar) + 1, start);
-            }
-            
-            // Update the last seen position of the character
-            charMap.put(currentChar, end);
-            
-            // Update maxLength if the current window is larger
-            maxLength = Math.max(maxLength, end - start + 1);
-        }
+//itirate thru the string by using a window (sliding window algorithm)
+for (int end=0;end < s.length(); end++)
+{
+    //what we need is a char and that is our point of reference
+char currentChar = s.charAt(end);
 
-        return maxLength;
+//check if we have a duplicate and have seen the current char before, if empty just skip
+if (storage.containsKey(currentChar))
+{
+    //move the start pointer to the last time "  [index] + 1 " you saw that char
+    //you shouldnt move i (start) pointer if it is not inside your current window 
+    start = Math.max(start, storage.get(currentChar) + 1);
+}
+//populating the storgare map
+storage.put(currentChar,end);
+//update the lenght of the current iteration only if greater than the previous (already stored lenght)
+maxLenght = Math.max(maxLenght, end - start + 1);
+
+
+}
+return maxLenght;
+
     }
 
     // Main method for testing
